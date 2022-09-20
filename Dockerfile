@@ -2,9 +2,13 @@
 # Build stage
 #
 FROM maven:3.5-jdk-8 AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+# Copy local code to the container image.
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+
+# Build a release artifact.
+RUN mvn package
 
 #
 # Package stage
